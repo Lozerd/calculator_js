@@ -1,88 +1,89 @@
 import "../css/Calculator.css";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import CalculatorInput from "./CalculatorInput";
 import CalculatorButton from "./CalculatorButton";
 
 
-class CalculatorOperation {
-    public operation: string;
+enum ActionType {
+    EMPTY = "",
+    ADD = "+",
+    SUBSTRACT = "-",
+    DIVIDE = "/",
+    MULTIPLY = "*",
+    DECIMAL = ".",
+    NUMBER = "number"
+}
 
-    constructor(operation: string) {
-        this.operation = operation;
+type Action = {
+    type: ActionType
+    value: string
+}
+
+type CalculatorState = {
+    firstOperand: number | string,
+    operator: ActionType,
+    secondOperand: number | string,
+}
+
+function calculatorReducer(state: CalculatorState, action: Action): CalculatorState {
+    function assign_proper_operand(): CalculatorState {
+        console.log(action.type, action.value, Object.values(ActionType).includes(action.type));
+        if (Object.values(ActionType).includes(action.type) && isNaN(Number(action.value))) { // operations
+            return {...state, operator: action.type};
+        } else {
+            if (state.operator !== ActionType.EMPTY) {
+                return {...state, secondOperand: "" + state.secondOperand + action.value};
+            } else {
+                return {...state, firstOperand: "" + state.firstOperand + action.value};
+            }
+        }
     }
 
-    static Add = class Add extends CalculatorOperation {
-        operation = "+";
-    };
-
-    static Substract = class Substract extends CalculatorOperation {
-        operation = "-";
-    };
-    static Divide = class Divide extends CalculatorOperation {
-        operation = "/";
-    };
-    static Multiply = class Multiply extends CalculatorOperation {
-        operation = "*";
-    };
-}
-
-class CalculatorAction {
-    private event
-
-    static Clear;
-    static Delete;
-    static Calculate;
-    static Decimal;
-    static Negate = class Negate;
-    static Operation = class Operation extends CalculatorOperation {
-        constructor(calculatorOperation: CalculatorOperation) {
-            super(calculatorOperation.operation);
-        }
-
-    };
-    static Number = class Number extends CalculatorAction {
-        public value: number;
-
-        constructor(value: number) {
-            super();
-            this.value = value;
-        }
-    };
-
-    onEvent(state: ) {}
-
-}
-
-interface ICalculatorState {
-    firstOperand: string,
-    operator: CalculatorAction | null,
-    secondOperand: string,
+    switch (action.type) {
+    case ActionType.EMPTY:
+        return assign_proper_operand();
+    case ActionType.ADD:
+        return assign_proper_operand();
+    case ActionType.SUBSTRACT:
+        return assign_proper_operand();
+    case ActionType.DIVIDE:
+        return assign_proper_operand();
+    case ActionType.MULTIPLY:
+        return assign_proper_operand();
+    case ActionType.DECIMAL:
+        return assign_proper_operand();
+    case ActionType.NUMBER:
+        return assign_proper_operand();
+    default:
+        return state;
+    }
 }
 
 const Calculator = () => {
-    const [state, setState] = useState<ICalculatorState>(
-        {firstOperand: "", operator: null, secondOperand: ""}
-    );
+    const initialCalculatorState: CalculatorState = {firstOperand: "", operator: ActionType.EMPTY, secondOperand: ""};
+    const [state, dispatch] = useReducer(calculatorReducer, initialCalculatorState);
 
-    let displayedText = useRef<string>();
+    const [displayedText, setDisplayedText] = useState("");
 
     useEffect(() => {
-        displayedText.current = Object.values(state).map(val => {
-            return val;
-        }).join(" ");
+        console.log();
+        setDisplayedText(Object.values(state).join(" "));
     }, [state]);
 
-    function onEvent(value: string) {
-        if (state.operator !== null && state.secondOperand !== "") {
-        }
-    }
+    const debug = true;
 
     return (
         <div className="main">
-            <CalculatorInput text={displayedText.current}/>
+            <CalculatorInput text={displayedText}/>
             <div className="buttons">
-                <CalculatorButton symbol={"7"} onClick={symbol => onEvent(symbol)}/>
+                <div className="buttons__row">
+                    <CalculatorButton symbol={7} onClick={symbol => dispatch({type: ActionType.NUMBER, value: symbol.toString()})}/>
+                    <CalculatorButton symbol={8} onClick={symbol => dispatch({type: ActionType.NUMBER, value: symbol.toString()})}/>
+                    <CalculatorButton symbol={9} onClick={symbol => dispatch({type: ActionType.NUMBER, value: symbol.toString()})}/>
+                    <CalculatorButton symbol={ActionType.ADD} onClick={symbol => dispatch({type: ActionType.ADD, value: symbol.toString()})}/>
+                </div>
             </div>
+            {debug ? <span>{state.firstOperand}|{state.operator}|{state.secondOperand}</span> : null}
         </div>
     );
 };

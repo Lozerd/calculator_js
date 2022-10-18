@@ -1,8 +1,8 @@
 import React from "react";
 
 interface CalculatorButtonProps {
-    symbol: string,
-    onClick: (symbol: string) => void,
+    symbol: string | number,
+    onClick: (symbol: string | number) => void,
 }
 
 const CalculatorButton = ({symbol, onClick}: CalculatorButtonProps) => {

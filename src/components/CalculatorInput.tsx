@@ -6,7 +6,7 @@ interface ICalculatorInputProps {
 
 const CalculatorInput = ({text}: ICalculatorInputProps) => {
     return <div>
-
+        {text !== null && <span>{text}</span>}
     </div>;
 };
 
