@@ -1,12 +1,63 @@
-.main {
+:root {
+    --calc-width: 500px; /* Calculator width */
+    --calc-btn-col-count: 4; /* Specifies number of buttons in a row */
+    --calc-btn-width: 120px; /* Calculator button width */
+    /* Gap between Calculator buttons */
+    --calc-btn-gap: calc((var(--calc-width) - calc(var(--calc-btn-col-count) * var(--calc-btn-width))) / var(--calc-btn-col-count));
+
+    --calc-bg: rgb(31, 31,31);
+    --btn-number: rgb(6, 6, 6);
+    --btn-action: rgb(16,16,16);
+    --btn-text: rgb(216, 216, 216);
+}
+
+.calculator {
+    min-width: var(--calc-width);
+
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
 
-    /*margin: 100px;*/
-
     width: min-content;
 
     border: 5px solid red;
+
+    background: var(--calc-bg);
+}
+
+.shadow__wrapper {
+    z-index: 1000;
+    background: transparent;
+    overflow: hidden;
+    position: relative;
+}
+
+.shadow__box {
+    z-index: 0;
+    position: absolute;
+}
+
+.calculator .buttons {
+    display: grid;
+    grid-template-columns: repeat(var(--calc-btn-col-count), 1fr);
+    grid-gap: var(--calc-btn-gap);
+}
+
+
+.calculator .button {
+    min-width: var(--calc-btn-width);
+    font-size: calc(var(--calc-btn-width) / 10 * var(--calc-btn-col-count));
+    aspect-ratio: 1;
+    color: var(--btn-text);
+
+    z-index: 100;
+}
+
+.calculator .button.number {
+    background: var(--btn-number);
+}
+
+.calculator .button.action {
+    background: var(--btn-action);
 }
