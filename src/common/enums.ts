@@ -5,9 +5,17 @@ export enum ActionType {
     DIVIDE = "/",
     MULTIPLY = "×",
     DECIMAL = ".",
-    NUMBER = "number"
+    SQUARE = "x²",
+    NUMBER = "number",
+    NAVIGATE = "navigate",
 }
+
 export enum MouseState {
     MOVE = "mousemove",
     LEAVE = "mouseleave"
+}
+
+export enum CalculatorNavigationType {
+    REGULAR = "Обычный",
+    ENGENEER = "Инженерный" // TODO to implement
 }

@@ -6,17 +6,18 @@ interface CalculatorButtonProps {
     onClick: (symbol: string | number) => void
 }
 
-
 const CalculatorButton = ({symbol, onClick}: CalculatorButtonProps) => {
-    const className = [
-        "button",
-        isNumber(symbol) ? "number" : "action",
-    ].join(" ");
+    const buttonTypeClass = isNumber(symbol) ? "number" : "action";
+
 
     return (
-        <button className={className} onClick={() => onClick(symbol)}>
-            <span>{symbol}</span>
-        </button>
+        <div className="button__wrapper">
+            <div className="button__border-wrapper">
+                <button className={["button", buttonTypeClass].join(" ")} onClick={() => onClick(symbol)}>
+                    <span>{symbol}</span>
+                </button>
+            </div>
+        </div>
     );
 };
 

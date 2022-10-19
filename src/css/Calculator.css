@@ -5,32 +5,31 @@
     /* Gap between Calculator buttons */
     --calc-btn-gap: calc((var(--calc-width) - calc(var(--calc-btn-col-count) * var(--calc-btn-width))) / var(--calc-btn-col-count));
 
-    --calc-bg: rgb(31, 31,31);
+    --calc-bg: rgb(31, 31, 31);
     --btn-number: rgb(6, 6, 6);
-    --btn-action: rgb(16,16,16);
+    --btn-number-border: rgb(10, 10, 10);
+    --btn-action: rgb(16, 16, 16);
+    --btn-action-border: rgb(20, 20, 20);
     --btn-text: rgb(216, 216, 216);
 }
 
 .calculator {
     min-width: var(--calc-width);
 
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-
     width: min-content;
-
-    border: 5px solid red;
 
     background: var(--calc-bg);
 }
 
 .shadow__wrapper {
     z-index: 1000;
-    background: transparent;
     overflow: hidden;
     position: relative;
+
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .shadow__box {
@@ -38,14 +37,35 @@
     position: absolute;
 }
 
+.calculator__input {
+    min-height: 200px;
+}
+
 .calculator .buttons {
     display: grid;
     grid-template-columns: repeat(var(--calc-btn-col-count), 1fr);
-    grid-gap: var(--calc-btn-gap);
+    grid-gap: 0;
 }
 
+.calculator .button__border-wrapper {
+    padding: 1px;
+}
+
+.calculator .button__wrapper {
+    padding: calc(var(--calc-btn-gap) / 2);
+    z-index: 100;
+}
+
+.calculator .button:hover {
+    background: rgba(43, 43, 43, 0.3) !important;
+    /*box-shadow: inset 0 0 1px 50px rgba(75, 75, 75, 0.3),*/
+    /*            inset 0 0 1px 25px rgba(43, 43, 43, 0.3);*/
+    /*background: linear-gradient(45deg, rgba(75, 75, 75, 0.5) 0%, rgba(41, 41, 41, 1) 100%);*/
+}
 
 .calculator .button {
+    cursor: pointer;
+
     min-width: var(--calc-btn-width);
     font-size: calc(var(--calc-btn-width) / 10 * var(--calc-btn-col-count));
     aspect-ratio: 1;
@@ -55,9 +75,11 @@
 }
 
 .calculator .button.number {
+    border: 1px solid var(--btn-number-border);
     background: var(--btn-number);
 }
 
 .calculator .button.action {
+    border: 1px solid var(--btn-action-border);
     background: var(--btn-action);
 }

@@ -1,16 +1,17 @@
 import "../css/Calculator.css";
-import {MouseEvent, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState} from "react";
+import {MouseEvent, useEffect, useReducer, useRef, useState} from "react";
 import CalculatorInput from "./CalculatorInput";
 import {Action, CalculatorState, MousePosition, ShadowHoverState} from "../common/types";
-import {ActionType, MouseState} from "../common/enums";
+import {ActionType, CalculatorNavigationType, MouseState} from "../common/enums";
 import CalculatorButtons from "./CalculatorButtons";
 import {DEBUG} from "../App";
 import {calculatorShadowOnHoverSpreadRadius} from "../common/constants";
+import CalculatorNavigation from "./CalculatorNavigation";
+import ShadowWrapper from "./ShadowWrapper";
 
 
 function calculatorReducer(state: CalculatorState, action: Action): CalculatorState {
     function assign_proper_operand(): CalculatorState {
-        console.log(action.type, action.value, Object.values(ActionType).includes(action.type));
         if (Object.values(ActionType).includes(action.type) && isNaN(Number(action.value))) { // operations
             return {...state, operator: action.type};
         } else {
@@ -46,7 +47,13 @@ function shadowHoverReducer(shadowHoverState: ShadowHoverState, action: MousePos
     const {x, y, type} = action;
     switch (type) {
     case MouseState.MOVE:
-        return {boxShadow: `0px 0px 78px ${calculatorShadowOnHoverSpreadRadius} rgba(43, 43, 43, 0.55)`, mouseX: x, mouseY: y};
+        return {
+            boxShadow:
+                    `0px 0px 200px ${calculatorShadowOnHoverSpreadRadius}px rgba(43, 43, 43, 0.55), 
+                     0px 0px 200px 0px rgba(41, 41, 41, 1)`,
+            left: x,
+            top: y
+        };
     case MouseState.LEAVE:
         return {...shadowHoverState, boxShadow: "none"};
     }
@@ -54,80 +61,58 @@ function shadowHoverReducer(shadowHoverState: ShadowHoverState, action: MousePos
 
 
 const Calculator = () => {
-    const initialCalculatorState: CalculatorState = {firstOperand: "", operator: ActionType.EMPTY, secondOperand: ""};
-    const shadowHoverInitialState: ShadowHoverState = {boxShadow: "none", mouseX: 0, mouseY: 0};
+    const initialCalculatorState: CalculatorState = {
+        firstOperand: "",
+        operator: ActionType.EMPTY,
+        secondOperand: "",
+        type: CalculatorNavigationType.REGULAR
+    };
+    const shadowHoverInitialState: ShadowHoverState = {boxShadow: "none", left: 0, top: 0};
 
     const [displayedText, setDisplayedText] = useState("");
 
-    const [state, calculatorDispatch] = useReducer(calculatorReducer, initialCalculatorState);
+    const [calculatorState, calculatorStateDispatch] = useReducer(calculatorReducer, initialCalculatorState);
     const [shadowHoverState, shadowHoverDispatcher] = useReducer(shadowHoverReducer, shadowHoverInitialState);
 
     const shadowWrapperRef = useRef<HTMLDivElement>(null);
     const calculatorButtonsRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setDisplayedText(Object.values(state).join(" "));
-    }, [state]);
-
-    useEffect(() => {
-        if (calculatorButtonsRef.current !== null) {
-            calculatorButtonsRef.current.childNodes.forEach((button, index) => {
-                // [75, 75, 75]
-                // [41,41,41]
-                // linear-gradient(90deg, rgba(75,75,75,1) 0%, rgba(41,41,41,1) 100%)
-
-                // @ts-ignore
-                // button.style.border = "1px solid rgb(58, 58, 58)";
-                // console.log(1);
-
-                // @ts-ignore
-                // let {top, bottom, left, right} = button.getBoundingClientRect();
-                // let {mouseX, mouseY} = Object.assign(shadowHoverState);
-
-                // let boundingBoxMouseX = mouseX + calculatorShadowOnHoverSpreadRadius;
-                // let boundingBoxMouseY = mouseY + calculatorShadowOnHoverSpreadRadius;
-
-
-                // const tempStyle = "1px solid rgb(58, 58, 58)";
-
-                // if (mouseY + calculatorShadowOnHoverSpreadRadius >= bottom || mouseY - calculatorShadowOnHoverSpreadRadius <= bottom){
-                //     @ts-ignore
-                // button.style.borderBottom = tempStyle;
-                // }
-                // if (mouseY + calculatorShadowOnHoverSpreadRadius >= top || mouseY - calculatorShadowOnHoverSpreadRadius <= top) {
-                //     @ts-ignore
-                // button.style.borderTop = tempStyle;
-                // }
-                // if (mouseX + calculatorShadowOnHoverSpreadRadius >= left || mouseX - calculatorShadowOnHoverSpreadRadius <= left) {
-                //     @ts-ignore
-                // button.style.borderLeft = tempStyle;
-                // }
-                // if (mouseX + calculatorShadowOnHoverSpreadRadius >= right || mouseX - calculatorShadowOnHoverSpreadRadius <= right) {
-                //     @ts-ignore
-                // button.style.borderRight = tempStyle;
-                // }
-                //
-                // console.log(top, right, bottom, left, mouseX, mouseY);
-            });
-        }
-    }, [shadowHoverState.mouseX, shadowHoverState.mouseY]);
+        setDisplayedText(Object.values(calculatorState).join(" "));
+    }, [calculatorState]);
 
     function mouseHandler(event: MouseEvent<HTMLDivElement>) {
         if (shadowWrapperRef.current !== null) {
             const {offsetLeft, offsetTop} = shadowWrapperRef.current;
-            shadowHoverDispatcher({x: event.nativeEvent.pageX - offsetLeft, y: event.nativeEvent.pageY - offsetTop, type: event.type as MouseState});
+            shadowHoverDispatcher({
+                x: event.nativeEvent.pageX - offsetLeft,
+                y: event.nativeEvent.pageY - offsetTop,
+                type: event.type as MouseState
+            });
         }
     }
 
     return (
         <div className="calculator">
-            <div ref={shadowWrapperRef} className="shadow__wrapper" onMouseMove={mouseHandler} onMouseLeave={mouseHandler}>
-                <div className="shadow__box" style={{...shadowHoverState}}></div>
+            <CalculatorNavigation
+                calculatorNavigationType={calculatorState.type}
+                onBurgerChoiceClick={(type: CalculatorNavigationType) => calculatorStateDispatch({
+                    type: ActionType.NAVIGATE,
+                    value: type
+                })}/>
+            <ShadowWrapper
+                ref={shadowWrapperRef}
+                mouseHandler={(event) => mouseHandler(event)}
+            >
                 <CalculatorInput text={displayedText}/>
-                <CalculatorButtons ref={calculatorButtonsRef} onClickDispatcher={obj => calculatorDispatch(obj)}/>
-
-                {DEBUG ? <span>{state.firstOperand}|{state.operator}|{state.secondOperand}</span> : null}
-            </div>
+                <div className="shadow__box" style={{...shadowHoverState}}/>
+                <CalculatorButtons
+                    ref={calculatorButtonsRef}
+                    onClickDispatcher={obj => calculatorStateDispatch(obj)}
+                />
+                {DEBUG ?
+                    <span>{calculatorState.firstOperand}|{calculatorState.operator}|{calculatorState.secondOperand}</span> : null}
+            </ShadowWrapper>
         </div>
     );
 };
