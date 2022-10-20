@@ -33,3 +33,6 @@ export type CalculatorNavigationProps = {
     onBurgerChoiceClick: (type: CalculatorNavigationType) => void;
 }
 
+export type ShadowBoxProps = {
+    style: ShadowHoverState
+}

@@ -21,4 +21,6 @@ const ShadowWrapper = forwardRef((
     );
 });
 
+ShadowWrapper.displayName = "ShadowWrapper";
+
 export default ShadowWrapper;

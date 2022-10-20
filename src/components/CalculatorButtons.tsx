@@ -21,4 +21,6 @@ const CalculatorButtons = forwardRef(({onClickDispatcher}: CalculatorButtonsProp
     </div>;
 });
 
+CalculatorButtons.displayName = "CalculatorButtons";
+
 export default CalculatorButtons;
