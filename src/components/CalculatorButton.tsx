@@ -11,8 +11,8 @@ const CalculatorButton = ({symbol, onClick}: CalculatorButtonProps) => {
 
 
     return (
-        <div className="button__wrapper">
-            <div className="button__border-wrapper">
+        <div className="calculator__button">
+            <div className="button__wrapper">
                 <button className={["button", buttonTypeClass].join(" ")} onClick={() => onClick(symbol)}>
                     <span>{symbol}</span>
                 </button>
