@@ -8,11 +8,8 @@ export enum ActionType {
     SQUARE = "x²",
     NUMBER = "number",
     NAVIGATE = "navigate",
-}
-
-export enum MouseState {
-    MOVE = "mousemove",
-    LEAVE = "mouseleave"
+    NEGATE = "+/-",
+    CALCULATE = "=",
 }
 
 export enum CalculatorNavigationType {

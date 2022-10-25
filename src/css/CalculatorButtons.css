@@ -76,3 +76,7 @@
 .calculator .button.action {
     background: var(--btn-action);
 }
+
+.calculator .button.calculate {
+    background: var(--btn-calculate);
+}

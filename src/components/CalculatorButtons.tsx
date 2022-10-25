@@ -8,7 +8,6 @@ import "../css/CalculatorButtons.css";
 const CalculatorButtons = ({onClickDispatcher}: CalculatorButtonsProps) => {
     const calculatorButtonsRef = useRef<HTMLDivElement>(null);
     function mouseHandler(event: MouseEvent<HTMLDivElement>) {
-        console.log(typeof event);
 
         if (calculatorButtonsRef.current !== null) {
             calculatorButtonsRef.current.childNodes.forEach((btn) => {
@@ -34,6 +33,10 @@ const CalculatorButtons = ({onClickDispatcher}: CalculatorButtonsProps) => {
         <CalculatorButton symbol={2} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
         <CalculatorButton symbol={3} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
         <CalculatorButton symbol={ActionType.ADD} onClick={symbol => onClickDispatcher({type: ActionType.ADD, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.NEGATE} onClick={symbol => onClickDispatcher({type: ActionType.NEGATE, value: symbol.toString()})} classNameOverride={"button number"}/>
+        <CalculatorButton symbol={0} onClick={symbol => onClickDispatcher({type: ActionType.ADD, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.DECIMAL} onClick={symbol => onClickDispatcher({type: ActionType.DECIMAL, value: symbol.toString()})} classNameOverride={"button number"}/>
+        <CalculatorButton symbol={ActionType.CALCULATE} onClick={symbol => onClickDispatcher({type: ActionType.CALCULATE, value: ""})} classNameOverride={"button calculate"}/>
     </div>;
 };
 

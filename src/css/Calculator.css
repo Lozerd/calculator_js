@@ -9,6 +9,7 @@
     --btn-number: rgb(6, 6, 6);
     --btn-number-border: rgb(10, 10, 10);
     --btn-action: rgb(16, 16, 16);
+    --btn-calculate: rgb(63, 69, 78);
     --btn-action-border: rgb(20, 20, 20);
     --btn-text: rgb(216, 216, 216);
 }
@@ -24,5 +25,7 @@
 .calculator__input {
     z-index: 100;
     min-height: 200px;
+    font-size: 24px;
+    color: white;
 }
 

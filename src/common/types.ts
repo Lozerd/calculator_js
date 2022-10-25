@@ -1,4 +1,4 @@
-import {ActionType, CalculatorNavigationType, MouseState} from "./enums";
+import {ActionType, CalculatorNavigationType} from "./enums";
 
 export type ShadowHoverState = {
     boxShadow: string,
@@ -16,12 +16,6 @@ export type CalculatorState = {
     operator: ActionType,
     secondOperand: number | string,
     type: CalculatorNavigationType
-}
-
-export type MousePosition = {
-    x: number,
-    y: number,
-    type: MouseState
 }
 
 export type CalculatorButtonsProps = {
