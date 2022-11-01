@@ -1,12 +1,12 @@
 import "../css/Calculator.css";
-import {useEffect, useReducer, useState} from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import CalculatorInput from "./CalculatorInput";
 import {Action, CalculatorState} from "../common/types";
 import {ActionType, CalculatorNavigationType} from "../common/enums";
 import CalculatorButtons from "./CalculatorButtons";
-import {DEBUG} from "../App";
 import CalculatorNavigation from "./CalculatorNavigation";
 import {isNumber, toNumber} from "../common/util";
+import CalculatorHeader from "./CalculatorHeader";
 
 
 function calculatorReducer(state: CalculatorState, action: Action): CalculatorState {
@@ -153,6 +153,7 @@ const Calculator = () => {
     };
 
     const [displayedText, setDisplayedText] = useState("");
+    const [offset, setOffset] = useState({x: 0, y: 0});
 
     const [calculatorState, calculatorStateDispatch] = useReducer(calculatorReducer, initialCalculatorState);
 
@@ -160,8 +161,24 @@ const Calculator = () => {
         setDisplayedText([calculatorState.firstOperand, calculatorState.operator, calculatorState.secondOperand].join(" "));
     }, [calculatorState]);
 
+    function onDragStart(e: React.DragEvent<HTMLDivElement>) {
+        // @ts-ignore
+        setOffset({x: e.clientX - e.target.offsetLeft, y: e.clientY - e.target.offsetTop});
+    }
+
+    function onDragEnd(e: React.DragEvent<HTMLDivElement>) {
+        // @ts-ignore
+        e.target.style.setProperty("--x", `${e.clientX - offset.x}px`);
+        // @ts-ignore
+        e.target.style.setProperty("--y", `${e.clientY - offset.y}px`);
+    }
+
     return (
-        <div className="calculator">
+        <div className="calculator" draggable={true}
+            onDragStart={e => onDragStart(e)}
+            onDragEnd={(e) => onDragEnd(e)}
+        >
+            <CalculatorHeader/>
             <CalculatorNavigation
                 calculatorNavigationType={calculatorState.type}
                 onBurgerChoiceClick={(type: CalculatorNavigationType) => calculatorStateDispatch({
@@ -170,8 +187,6 @@ const Calculator = () => {
                 })}/>
             <CalculatorInput text={displayedText}/>
             <CalculatorButtons onClickDispatcher={obj => calculatorStateDispatch(obj)}/>
-            {DEBUG ?
-                <span>{calculatorState.firstOperand}|{calculatorState.operator}|{calculatorState.secondOperand}</span> : null}
         </div>
     );
 };

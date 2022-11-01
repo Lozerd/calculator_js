@@ -1,0 +1,16 @@
+.calculator__input {
+    z-index: 100;
+    min-height: 200px;
+
+    display: flex;
+    align-items: center;
+}
+
+.calculator__input--text {
+    width: 100%;
+    padding-right: 50px;
+
+    font-size: calc(var(--calc-btn-width) / 10 * var(--calc-btn-col-count));
+    text-align: right;
+    color: white;
+}

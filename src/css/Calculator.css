@@ -5,27 +5,29 @@
     /* Gap between Calculator buttons */
     --calc-btn-gap: calc((var(--calc-width) - calc(var(--calc-btn-col-count) * var(--calc-btn-width))) / var(--calc-btn-col-count));
 
-    --calc-bg: rgb(31, 31, 31);
+    --calc-bg: rgba(31, 31, 31, 0.9);
     --btn-number: rgb(6, 6, 6);
     --btn-number-border: rgb(10, 10, 10);
     --btn-action: rgb(16, 16, 16);
     --btn-calculate: rgb(63, 69, 78);
     --btn-action-border: rgb(20, 20, 20);
     --btn-text: rgb(216, 216, 216);
+
+    --x: 35%;
+    --y: 15%;
 }
 
 .calculator {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+
     min-width: var(--calc-width);
 
     width: min-content;
 
     background: var(--calc-bg);
+    padding: 7px;
 }
 
-.calculator__input {
-    z-index: 100;
-    min-height: 200px;
-    font-size: 24px;
-    color: white;
-}
 

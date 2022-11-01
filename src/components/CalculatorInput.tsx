@@ -1,4 +1,5 @@
 import React from "react";
+import "../css/CalculatorInput.css";
 
 interface ICalculatorInputProps {
     text: string | undefined
@@ -7,7 +8,7 @@ interface ICalculatorInputProps {
 const CalculatorInput = ({text}: ICalculatorInputProps) => {
     return (<div className="calculator__input">
         {text !== null ?
-            <span className="calculator__input--text">{text}</span>
+            <div className="calculator__input--text">{text}</div>
             : null}
     </div>);
 };
