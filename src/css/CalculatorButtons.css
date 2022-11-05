@@ -63,7 +63,7 @@
 
     min-width: var(--calc-btn-width);
     font-size: calc(var(--calc-btn-width) / 10 * var(--calc-btn-col-count));
-    aspect-ratio: 1;
+    min-height: calc(var(--calc-btn-width) / 1.3);
     color: var(--btn-text);
 
     z-index: 100;

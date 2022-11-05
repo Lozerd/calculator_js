@@ -5,7 +5,7 @@ import "../css/CalculatorNavigation.css";
 const CalculatorNavigation = ({calculatorNavigationType, onBurgerChoiceClick}: CalculatorNavigationProps) => {
     return (
         <nav className="calculator__nav">
-            123
+            {calculatorNavigationType}
         </nav>
     );
 };
