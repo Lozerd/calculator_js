@@ -21,10 +21,14 @@ const CalculatorButtons = ({onClickDispatcher}: CalculatorButtonsProps) => {
     }
 
     return <div ref={calculatorButtonsRef} onMouseMove={(e) => mouseHandler(e)} className="calculator__buttons">
-        <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
-        <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
-        <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
-        <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.PERCENT} onClick={symbol => onClickDispatcher({type: ActionType.PERCENT, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.REMOVE_OPERAND} onClick={symbol => onClickDispatcher({type: ActionType.REMOVE_OPERAND, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.CLEAR} onClick={symbol => onClickDispatcher({type: ActionType.CLEAR, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.REMOVE} onClick={symbol => onClickDispatcher({type: ActionType.REMOVE, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.INVERSE_DEGREE} onClick={symbol => onClickDispatcher({type: ActionType.INVERSE_DEGREE, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.SQUARE} onClick={symbol => onClickDispatcher({type: ActionType.SQUARE, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.SQUARE_ROOT} onClick={symbol => onClickDispatcher({type: ActionType.SQUARE_ROOT, value: symbol.toString()})}/>
+        <CalculatorButton symbol={ActionType.DIVIDE} onClick={symbol => onClickDispatcher({type: ActionType.DIVIDE, value: symbol.toString()})}/>
         <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
         <CalculatorButton symbol={8} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
         <CalculatorButton symbol={9} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>

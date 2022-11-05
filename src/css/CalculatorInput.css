@@ -1,6 +1,6 @@
 .calculator__input {
     z-index: 100;
-    min-height: 200px;
+    min-height: calc(var(--calc-width) / 3);
 
     display: flex;
     align-items: center;
@@ -8,7 +8,10 @@
 
 .calculator__input--text {
     width: 100%;
-    padding-right: 50px;
+    padding-right: 1rem;
+
+    word-break: break-all;
+    max-lines: 3;
 
     font-size: calc(var(--calc-btn-width) / 10 * var(--calc-btn-col-count));
     text-align: right;

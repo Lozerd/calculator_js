@@ -1,7 +1,7 @@
 :root {
-    --calc-width: 500px; /* Calculator width */
+    --calc-width: 200px; /* Calculator width */
     --calc-btn-col-count: 4; /* Specifies number of buttons in a row */
-    --calc-btn-width: 120px; /* Calculator button width */
+    --calc-btn-width: 60px; /* Calculator button width */
     /* Gap between Calculator buttons */
     --calc-btn-gap: calc((var(--calc-width) - calc(var(--calc-btn-col-count) * var(--calc-btn-width))) / var(--calc-btn-col-count));
 

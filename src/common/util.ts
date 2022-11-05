@@ -1,4 +1,5 @@
 import {DEBUG} from "../App";
+import {ActionType} from "./enums";
 
 export function isNumber(number: unknown): boolean {
     return !isNaN(Number(number));
@@ -16,10 +17,11 @@ export function elementsOverlap(first: DOMRect, second: DOMRect): boolean {
 export function toNumber(value: any, default_value: number = 0): number {
     try {
         let strValue = String(value);
-        if (strValue.includes(".")) {
-            return parseFloat(strValue.replace("[^0-9\-\.]", ""));
+
+        if (strValue.includes(ActionType.DECIMAL)) {
+            return parseFloat(strValue.replace("[^0-9-.]", ""));
         } else {
-            return parseInt(strValue.replace("[^0-9\-\.]", ""));
+            return parseInt(strValue.replace("[^0-9-]", ""));
         }
     } catch (e) {
         if (DEBUG) {

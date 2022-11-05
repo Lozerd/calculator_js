@@ -1,4 +1,4 @@
-import React, {CSSProperties} from "react";
+import React from "react";
 import {isNumber} from "../common/util";
 
 interface CalculatorButtonProps {
