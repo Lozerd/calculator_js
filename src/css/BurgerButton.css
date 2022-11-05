@@ -1,0 +1,59 @@
+
+.nav-burger {
+    overflow: hidden;
+
+    width: 25px;
+    height: 25px;
+
+    background: none;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .5s ease-in-out;
+}
+
+.nav-burger-lines {
+    width: 20px;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 2px var(--btn-text);
+    transition: all .5s ease-in-out;
+}
+
+.nav-burger-lines::before,
+.nav-burger-lines::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 2px var(--btn-text);
+    transition: all .5s ease-in-out;
+}
+
+.nav-burger-lines::before {
+    transform: translateY(-8px);
+}
+
+.nav-burger-lines::after {
+    transform: translateY(8px);
+}
+
+.nav-burger.open > .nav-burger-lines {
+    transform: translateX(-50px);
+    background: transparent;
+    box-shadow: none
+}
+
+.nav-burger.open > .nav-burger-lines::before {
+    transform: rotate(45deg) translate(35px, -35px);
+}
+
+.nav-burger.open > .nav-burger-lines::after {
+    transform: rotate(-45deg) translate(35px, 35px);
+}
