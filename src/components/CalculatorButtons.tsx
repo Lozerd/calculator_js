@@ -22,6 +22,10 @@ const CalculatorButtons = ({onClickDispatcher}: CalculatorButtonsProps) => {
 
     return <div ref={calculatorButtonsRef} onMouseMove={(e) => mouseHandler(e)} className="calculator__buttons">
         <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
+        <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
+        <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
+        <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
+        <CalculatorButton symbol={7} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
         <CalculatorButton symbol={8} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
         <CalculatorButton symbol={9} onClick={symbol => onClickDispatcher({type: ActionType.NUMBER, value: symbol.toString()})}/>
         <CalculatorButton symbol={ActionType.MULTIPLY} onClick={symbol => onClickDispatcher({type: ActionType.MULTIPLY, value: symbol.toString()})}/>

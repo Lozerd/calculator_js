@@ -15,7 +15,7 @@ export function elementsOverlap(first: DOMRect, second: DOMRect): boolean {
 
 export function toNumber(value: any, default_value: number = 0): number {
     try {
-        let strValue = value as string;
+        let strValue = String(value);
         if (strValue.includes(".")) {
             return parseFloat(strValue.replace("[^0-9\-\.]", ""));
         } else {

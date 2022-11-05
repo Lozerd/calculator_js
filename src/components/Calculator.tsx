@@ -7,6 +7,9 @@ import CalculatorButtons from "./CalculatorButtons";
 import CalculatorNavigation from "./CalculatorNavigation";
 import {isNumber, toNumber} from "../common/util";
 import CalculatorHeader from "./CalculatorHeader";
+import CalculatorBody from "./CalculatorBody";
+import {DEBUG} from "../App";
+import Debug from "./Debug";
 
 
 function calculatorReducer(state: CalculatorState, action: Action): CalculatorState {
@@ -60,7 +63,6 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
     }
 
     function calculate(): CalculatorState {
-        console.log(state.operator);
         switch (state.operator) {
         case ActionType.ADD:
             return {
@@ -101,7 +103,6 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
             };
         default:
             return state;
-
         }
     }
 
@@ -117,7 +118,11 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
         case ActionType.NEGATE:
             return negateCurrentOperand();
         case ActionType.CALCULATE:
-            return calculate();
+            if (state.secondOperand !== "") {
+                return calculate();
+            } else {
+                return state;
+            }
         case ActionType.EMPTY:
             return state;
         case ActionType.ADD:
@@ -153,7 +158,6 @@ const Calculator = () => {
     };
 
     const [displayedText, setDisplayedText] = useState("");
-    const [offset, setOffset] = useState({x: 0, y: 0});
 
     const [calculatorState, calculatorStateDispatch] = useReducer(calculatorReducer, initialCalculatorState);
 
@@ -161,23 +165,8 @@ const Calculator = () => {
         setDisplayedText([calculatorState.firstOperand, calculatorState.operator, calculatorState.secondOperand].join(" "));
     }, [calculatorState]);
 
-    function onDragStart(e: React.DragEvent<HTMLDivElement>) {
-        // @ts-ignore
-        setOffset({x: e.clientX - e.target.offsetLeft, y: e.clientY - e.target.offsetTop});
-    }
-
-    function onDragEnd(e: React.DragEvent<HTMLDivElement>) {
-        // @ts-ignore
-        e.target.style.setProperty("--x", `${e.clientX - offset.x}px`);
-        // @ts-ignore
-        e.target.style.setProperty("--y", `${e.clientY - offset.y}px`);
-    }
-
     return (
-        <div className="calculator" draggable={true}
-            onDragStart={e => onDragStart(e)}
-            onDragEnd={(e) => onDragEnd(e)}
-        >
+        <CalculatorBody>
             <CalculatorHeader/>
             <CalculatorNavigation
                 calculatorNavigationType={calculatorState.type}
@@ -187,7 +176,8 @@ const Calculator = () => {
                 })}/>
             <CalculatorInput text={displayedText}/>
             <CalculatorButtons onClickDispatcher={obj => calculatorStateDispatch(obj)}/>
-        </div>
+            <Debug objectToDebug={`${calculatorState.firstOperand}|${calculatorState.operator}|${calculatorState.secondOperand}`}/>
+        </CalculatorBody>
     );
 };
 
