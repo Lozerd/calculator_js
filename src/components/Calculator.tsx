@@ -20,7 +20,7 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
                 }
                 return {...state, operator: action.type};
             } else {
-                return calculate();
+                return {...calculate(), operator: action.type};
             }
         } else {
             if (state.operator !== ActionType.EMPTY) {
@@ -32,23 +32,29 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
     }
 
     function negateCurrentOperand(): CalculatorState {
-        if (state.operator !== ActionType.EMPTY) {
-            if (state.secondOperand.toString().includes("-")) {
-                return {...state, secondOperand: state.secondOperand.toString().replace("\D+", ActionType.EMPTY)}; // eslint-disable-line
+        if (state.operator !== ActionType.EMPTY && state.secondOperand !== ActionType.EMPTY) {
+            if (state.operator === ActionType.SUBTRACT) {
+                return {...state, operator: ActionType.ADD}; // eslint-disable-line
             }
-            return {...state, secondOperand: "(-" + state.secondOperand};
-        } else {
-            if (state.firstOperand.toString().includes("-")) {
-                return {...state, firstOperand: state.firstOperand.toString().replace("-", ActionType.EMPTY)};
+            return {...state, operator: ActionType.SUBTRACT};
+        } else if (state.operator === ActionType.EMPTY && state.firstOperand !== ActionType.EMPTY) {
+            if (state.firstOperand.toString().includes(ActionType.SUBTRACT)) {
+                return {
+                    ...state,
+                    firstOperand: state.firstOperand.toString().replace(ActionType.SUBTRACT, ActionType.EMPTY)
+                };
             }
-            return {...state, firstOperand: "-" + state.firstOperand};
+            return {...state, firstOperand: ActionType.SUBTRACT + state.firstOperand};
         }
+        return state;
     }
 
     function calculate(): CalculatorState {
+        if (state.secondOperand === ActionType.EMPTY) {
+            return state;
+        }
         switch (state.operator) {
         case ActionType.ADD:
-            console.log(toNumber(state.firstOperand), toNumber(state.secondOperand));
             return {
                 firstOperand: toNumber(state.firstOperand) + toNumber(state.secondOperand),
                 secondOperand: ActionType.EMPTY,
@@ -111,9 +117,10 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
     }
 
     function apply_inverse_degree(): CalculatorState {
-        if (state.operator !== ActionType.EMPTY && state.secondOperand !== "") {
+        if (state.operator !== ActionType.EMPTY && state.secondOperand !== ActionType.EMPTY) {
             return {...state, secondOperand: 1 / toNumber(state.secondOperand)};
         } else if (state.firstOperand !== ActionType.EMPTY) {
+            console.log(toNumber(state.firstOperand));
             return {...state, firstOperand: 1 / toNumber(state.firstOperand)};
         }
         return state;
@@ -143,11 +150,7 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
         case ActionType.DECIMAL:
             return applyDecimalPoint();
         case ActionType.CALCULATE:
-            if (state.secondOperand !== ActionType.EMPTY) {
-                return calculate();
-            } else {
-                return state;
-            }
+            return calculate();
         case ActionType.NUMBER:
             return assign_proper_operand();
         case ActionType.ADD:
@@ -165,7 +168,7 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
         case ActionType.DIVIDE:
             return assign_proper_operand();
         case ActionType.PERCENT:
-            return state;
+            return {...state, firstOperand: "не работаит(9("};
         case ActionType.REMOVE_OPERAND:
             return remove_symbol(true);
         case ActionType.CLEAR:
@@ -190,6 +193,7 @@ function calculatorReducer(state: CalculatorState, action: Action): CalculatorSt
 }
 
 const Calculator = () => {
+    const MAX_DIGITS_IN_LINE = 14;
     const initialCalculatorState: CalculatorState = {
         firstOperand: ActionType.EMPTY,
         operator: ActionType.EMPTY,
@@ -203,7 +207,7 @@ const Calculator = () => {
 
     useEffect(() => {
         setDisplayedText([calculatorState.firstOperand, calculatorState.operator, calculatorState.secondOperand]
-            .map(item => item.toString().slice(0, 17))
+            .map(item => item.toString().slice(0, MAX_DIGITS_IN_LINE))
             .join(" "));
     }, [calculatorState]);
 

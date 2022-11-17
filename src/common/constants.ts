@@ -1,1 +1,2 @@
-export const calculatorShadowOnHoverSpreadRadius = 200;  // Shadow circle radius
+const packageJson = require("./../../package.json");
+export const DEBUG = packageJson.debug;
